@@ -16,6 +16,12 @@ public class Main {
 
         DictionaryController dictionaryController = new DictionaryController();
         System.out.println(dictionaryController.getDefinitions("Æ"));
-        System.out.println(dictionaryController.getSlangs("Food"));
+        System.out.println(dictionaryController.getSlangWords("Food"));
+
+        dictionaryController.addNewDefinition("LOL", "Laughing Out Loud!!!");
+        System.out.println(dictionaryController.getDefinitions("LOL"));
+
+        dictionaryController.addNewSlangWord("LOL", "bủh");
+        System.out.println(dictionaryController.getDefinitions("LOL"));
     }
 }

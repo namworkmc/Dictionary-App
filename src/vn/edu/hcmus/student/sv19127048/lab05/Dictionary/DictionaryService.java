@@ -26,17 +26,8 @@ public class DictionaryService {
     definitionMap = hashMapList.get(1);
   }
 
-  public void addDefinitions(String word, String newDefinition) {
-    HashSet<String> definitions = slangMap.get(word);
-    definitions.add(newDefinition);
-  }
-
-  public HashSet<String> getDefinitions(String word) {
-    return slangMap.get(word);
-  }
-
   /**
-   * Add definition vao slang
+   * Add definition vao slang aka override slang da ton tai
    * @param newSlangWord slang word moi
    * @param newDefinition definition moi
    */
@@ -50,15 +41,31 @@ public class DictionaryService {
    * @param newDefinition definition moi
    */
   public void addNewDefinition(String slangWord, String newDefinition) {
-    HashSet<String> defitionSet = slangMap.get(slangWord);
-    defitionSet.add(newDefinition);
+    HashSet<String> definitionSet = slangMap.get(slangWord);
+    definitionSet.add(newDefinition);
   }
 
-  public HashSet<String> getSlangs(String word) {
-    return definitionMap.get(word);
+  /**
+   * Lay tat ca cac definition cua slang word
+   *
+   * @param word slang word
+   * @return list cac definition
+   */
+  public HashSet<String> getDefinitions(String word) {
+    return slangMap.get(word);
   }
 
-  public Boolean isSlangExisted(String word) {
+  /**
+   * Lay tat cac slang word co cung definition
+   *
+   * @param definition slang word
+   * @return list cac slang word
+   */
+  public HashSet<String> getSlangWords(String definition) {
+    return definitionMap.get(definition);
+  }
+
+  public Boolean isSlangWordExisted(String word) {
     return slangMap.containsKey(word);
   }
 }
