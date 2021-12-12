@@ -1,6 +1,5 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
-import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -32,11 +31,43 @@ public class DictionaryController {
     dictionaryService.addNewDefinition(slangWord, newDefinition);
   }
 
-  public HashSet<String> getDefinitions(String word) {
-    return dictionaryService.getDefinitions(word);
+  public HashSet<String> getDefinitionsBySlangWord(String word) {
+    return dictionaryService.getDefinitionsBySlangWord(word);
   }
 
-  public HashSet<String> getSlangWords(String word) {
-    return dictionaryService.getSlangWords(word);
+  public HashSet<String> getSlangWordsByDefinition(String definition) {
+    return dictionaryService.getSlangWordsByDefinition(definition);
+  }
+
+  public String[] getSlangWords() {
+    return dictionaryService.getSlangWords();
+  }
+
+  /**
+   * Update definition cua 1 slang word
+   *
+   * @param slangWord slang word
+   * @param oldDefinition definition muon update
+   * @param newDefinition definition moi
+   *
+   * @return neu slang word ton tai va update thanh cong tra ve {@code true},
+   * con khong tra ve {@code false}
+   */
+  public Boolean updateSlangDefinition(String slangWord, String oldDefinition, String newDefinition) {
+    return dictionaryService.updateSlangDefinition(slangWord, oldDefinition, newDefinition);
+  }
+
+  /**
+   * Delete 1 slang word
+   * @param slangWord slang word can delete
+   * @return tra ve {@code true} neu slang word do ton tai va delete thanh cong,
+   * neu khong tra ve {@code false}
+   */
+  public Boolean deleteSlangWord(String slangWord) {
+    return dictionaryService.deleteSlangWord(slangWord);
+  }
+
+  public String getRandomSlangWord() {
+    return dictionaryService.getRandomSlangWord();
   }
 }

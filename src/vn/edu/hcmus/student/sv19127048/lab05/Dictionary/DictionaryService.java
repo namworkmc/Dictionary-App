@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br>
@@ -17,7 +19,11 @@ public class DictionaryService {
   HashMap<String, HashSet<String>> slangMap;
   HashMap<String, HashSet<String>> definitionMap;
 
-
+  /**
+   * Constructor cua service class cua Dictionary<br>
+   * Khoi tao {@link DictionaryDAO}<br>
+   * Load {@code slang.txt} vao {@link HashMap} slangMap va {@link HashMap} definitionMap<br>
+   */
   public DictionaryService() {
     dictionaryDAO = new DictionaryDAO();
 
@@ -48,11 +54,11 @@ public class DictionaryService {
   /**
    * Lay tat ca cac definition cua slang word
    *
-   * @param word slang word
+   * @param slangWord slang word
    * @return list cac definition
    */
-  public HashSet<String> getDefinitions(String word) {
-    return slangMap.get(word);
+  public HashSet<String> getDefinitionsBySlangWord(String slangWord) {
+    return slangMap.get(slangWord);
   }
 
   /**
@@ -61,11 +67,67 @@ public class DictionaryService {
    * @param definition slang word
    * @return list cac slang word
    */
-  public HashSet<String> getSlangWords(String definition) {
+  public HashSet<String> getSlangWordsByDefinition(String definition) {
     return definitionMap.get(definition);
   }
 
-  public Boolean isSlangWordExisted(String word) {
-    return slangMap.containsKey(word);
+  public String[] getSlangWords() {
+    return slangMap.keySet().toArray(new String[0]);
+  }
+
+  /**
+   * Update definition cua 1 slang word
+   *
+   * @param slangWord slang word
+   * @param oldDefinition definition muon update
+   * @param newDefinition definition moi
+   *
+   * @return neu slang word ton tai va update thanh cong tra ve {@code true},
+   * con khong tra ve {@code false}
+   */
+  public Boolean updateSlangDefinition(String slangWord, String oldDefinition, String newDefinition) {
+    if (isSlangWordExist(slangWord)) {
+      HashSet<String> definitionSet = getDefinitionsBySlangWord(slangWord);
+      definitionSet.remove(oldDefinition);
+      definitionSet.add(newDefinition);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Delete 1 slang word
+   * @param slangWord slang word can delete
+   * @return tra ve {@code true} neu slang word do ton tai va delete thanh cong,
+   * neu khong tra ve {@code false}
+   */
+  public Boolean deleteSlangWord(String slangWord) {
+    if (isSlangWordExist(slangWord)) {
+      slangMap.remove(slangWord);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Lay random slang word cua slangMap
+   * @return random slang word
+   */
+  public String getRandomSlangWord() {
+    Set<String> keySet = slangMap.keySet();
+    return keySet.stream().skip(new Random().nextInt(keySet.size())).findFirst().orElse(null);
+  }
+
+  /**
+   * Kiem tra slang do co ton tai trong dictionary hay khong
+   * @param slangWord slang word
+   * @return tra ve {@code true} neu ton tai, neu khong tra ve {@code false}
+   */
+  public Boolean isSlangWordExist(String slangWord) {
+    return slangMap.containsKey(slangWord);
   }
 }
