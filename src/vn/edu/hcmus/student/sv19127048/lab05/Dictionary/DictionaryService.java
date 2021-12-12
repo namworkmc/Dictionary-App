@@ -1,11 +1,14 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Spliterator;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br>
@@ -67,8 +70,15 @@ public class DictionaryService {
    * @param definition slang word
    * @return list cac slang word
    */
-  public HashSet<String> getSlangWordsByDefinition(String definition) {
-    return definitionMap.get(definition);
+  public String[] getSlangWordsByDefinition(String definition) {
+    String[] strs = definition.split(" ");
+
+    HashSet<String> intersectionSet = new HashSet<>(definitionMap.get(strs[0]));
+    for (int i = 1; i < strs.length; ++i) {
+      intersectionSet.retainAll(definitionMap.get(strs[i]));
+    }
+
+    return intersectionSet.toArray(new String[0]);
   }
 
   public String[] getSlangWords() {

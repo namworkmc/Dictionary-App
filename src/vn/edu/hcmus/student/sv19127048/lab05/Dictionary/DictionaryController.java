@@ -35,7 +35,7 @@ public class DictionaryController {
     return dictionaryService.getDefinitionsBySlangWord(word);
   }
 
-  public HashSet<String> getSlangWordsByDefinition(String definition) {
+  public String[] getSlangWordsByDefinition(String definition) {
     return dictionaryService.getSlangWordsByDefinition(definition);
   }
 
@@ -69,5 +69,14 @@ public class DictionaryController {
 
   public String getRandomSlangWord() {
     return dictionaryService.getRandomSlangWord();
+  }
+
+  /**
+   * Kiem tra slang do co ton tai trong dictionary hay khong
+   * @param slangWord slang word
+   * @return tra ve {@code true} neu ton tai, neu khong tra ve {@code false}
+   */
+  public Boolean isSlangWordExist(String slangWord) {
+    return dictionaryService.isSlangWordExist(slangWord);
   }
 }

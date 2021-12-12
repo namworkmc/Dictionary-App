@@ -2,7 +2,6 @@ package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import java.util.List;
  */
 public class DictionaryDAO {
   private BufferedReader bufferedReader;
-  private FileWriter fileWriter;
 
   public DictionaryDAO() {
     try {
@@ -74,20 +72,26 @@ public class DictionaryDAO {
           }
         }
 
-        // Map tung slang vao definitionMap
+        // Map tung slang vao tung tu le trong definition
         /*
          * Key: definition
          * Value: slang
          */
         for (String definition : definitions) {
-          // Definition co nhieu hon 1 slang
-          if (definitionMap.containsKey(definition)) {
-            slangSet = definitionMap.get(definition);
-            slangSet.add(slang);
-          } else {  // Definition co 1 slang
-            slangSet = new HashSet<>();
-            slangSet.add(slang);
-            definitionMap.put(definition, slangSet);
+          // Split 1 tu dai ra thanh tung tu con. Vi du: "Thank You" -> "Thank" "You"
+          String[] definitionChild = definition.split(" ");
+
+          // Map tung slang vao tung tu con
+          for (String child: definitionChild) {
+            // Definition co nhieu hon 1 slang
+            if (definitionMap.containsKey(child)) {
+              slangSet = definitionMap.get(child);
+              slangSet.add(slang);
+            } else {  // Definition co 1 slang
+              slangSet = new HashSet<>();
+              slangSet.add(slang);
+              definitionMap.put(child, slangSet);
+            }
           }
         }
       }
