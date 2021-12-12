@@ -122,7 +122,16 @@ public class DictionaryService {
    */
   public Boolean deleteSlangWord(String slangWord) {
     if (isSlangWordExist(slangWord)) {
-      slangMap.remove(slangWord);
+      // Lay ra definition set vua remove de remove cac slang trong definition map
+      HashSet<String> removedDefinitionSet = slangMap.remove(slangWord);
+
+      // Remove cac slang word trong definition map
+      for (String definition: removedDefinitionSet) {
+        // Split definition ra tung tu le
+        for (String definitionChild: definition.split(" ")) {
+          definitionMap.get(definitionChild).remove(slangWord);
+        }
+      }
 
       return true;
     }

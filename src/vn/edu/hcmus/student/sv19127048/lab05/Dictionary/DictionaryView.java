@@ -85,19 +85,8 @@ public class DictionaryView extends JFrame {
     searchButton.addActionListener(this::searchButtonActionPerformed);
 
     searchField.setToolTipText("Input slang word");
-    searchField.addActionListener(this::searchFieldActionPerformed);
 
-    slangWordList.setModel(new AbstractListModel<>() {
-      final String[] strings = dictionaryController.getSlangWords();
-
-      public int getSize() {
-        return strings.length;
-      }
-
-      public String getElementAt(int i) {
-        return strings[i];
-      }
-    });
+    loadSlangWordIntoList();
     slangWordList.addListSelectionListener(this::slangWordListValueChanged);
     slangWordScrollPane.setViewportView(slangWordList);
 
@@ -113,9 +102,10 @@ public class DictionaryView extends JFrame {
     editButton.addActionListener(this::editButtonActionPerformed);
 
     deleteButton.setText("Delete");
+    deleteButton.addActionListener(this::deleteButtonActionPerformed);
+
 
     searchByComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Search by slang", "Search by definition" }));
-    searchByComboBox.addActionListener(this::searchByComboBoxActionPerformed);
 
     GroupLayout dictionaryPanelLayout = new GroupLayout(dictionaryPanel);
     dictionaryPanel.setLayout(dictionaryPanelLayout);
@@ -259,11 +249,6 @@ public class DictionaryView extends JFrame {
     pack();
   }// </editor-fold>
 
-  private void editButton1ActionPerformed(ActionEvent evt) {
-    // TODO add your handling code here:
-    System.out.println("edit button 1");
-  }
-
   /**
    * Add slang word moi vao dictionary
    * @param evt
@@ -311,16 +296,42 @@ public class DictionaryView extends JFrame {
     }
   }
 
-  private void searchByComboBoxActionPerformed(ActionEvent evt) {
-    // TODO add your handling code here:
-  }
-
   private void editButtonActionPerformed(ActionEvent evt) {
     // TODO add your handling code here:
   }
 
-  private void searchFieldActionPerformed(ActionEvent evt) {
+  private void deleteButtonActionPerformed(ActionEvent evt) {
+    System.out.println("Clicked delete button");
     // TODO add your handling code here:
+
+    // Kiem tra co dang chon tu can xoa khong
+    if (slangWordList.isSelectionEmpty()) {
+      JOptionPane.showMessageDialog(
+          null,
+          "You did not select any word",
+          "Empty select",
+          INFORMATION_MESSAGE
+      );
+    } else {
+      // Confirm
+      int state = JOptionPane.showConfirmDialog(
+          null,
+          "Are you sure delete this slang word?",
+          "Confirm",
+          JOptionPane.OK_CANCEL_OPTION
+      );
+
+      // Kiem tra confirm dialog
+      if (state == 0) {
+        String value = slangWordList.getSelectedValue();
+        dictionaryController.deleteSlangWord(value);
+
+        // Render lai slang list
+        loadSlangWordIntoList();
+        // Clear definition table
+        definitionTable.setModel(new DefaultTableModel(null, new String [] {"Definition"}));
+      }
+    }
   }
 
   /**
@@ -328,7 +339,7 @@ public class DictionaryView extends JFrame {
    * @param evt searchButton event
    */
   private void searchButtonActionPerformed(ActionEvent evt) {
-    System.out.println("Search button clicked");
+    System.out.println("Clicked search button");
     // TODO add your handling code here:
     // Lay tu search trong searchField
     String searchStr = searchField.getText();
@@ -376,17 +387,7 @@ public class DictionaryView extends JFrame {
     // TODO add your handling code here:
     dictionaryController.restoreDefaultDictionary();
 
-    slangWordList.setModel(new AbstractListModel<>() {
-      final String[] strings = dictionaryController.getSlangWords();
-
-      public int getSize() {
-        return strings.length;
-      }
-
-      public String getElementAt(int i) {
-        return strings[i];
-      }
-    });
+    loadSlangWordIntoList();
 
     definitionTable.setModel(new DefaultTableModel(null, new String [] {"Definition"}));
   }
@@ -420,6 +421,20 @@ public class DictionaryView extends JFrame {
       }
       definitionTable.setModel(new DefaultTableModel(definitions, new String [] {"Definition"}));
     }
+  }
+
+  void loadSlangWordIntoList() {
+    slangWordList.setModel(new AbstractListModel<>() {
+      final String[] strings = dictionaryController.getSlangWords();
+
+      public int getSize() {
+        return strings.length;
+      }
+
+      public String getElementAt(int i) {
+        return strings[i];
+      }
+    });
   }
 
   private JPanel addNewWordPanel;
