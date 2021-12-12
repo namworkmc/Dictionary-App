@@ -1,14 +1,11 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.Spliterator;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br>
@@ -68,19 +65,29 @@ public class DictionaryService {
    * Lay tat cac slang word co cung definition
    *
    * @param definition slang word
-   * @return list cac slang word
+   * @return tra {@link String}[] cac slang word neu definition do co ton tai
+   * tra ve chuoi rong {@code ""} neu khong ton tai
    */
   public String[] getSlangWordsByDefinition(String definition) {
     String[] strs = definition.split(" ");
 
-    HashSet<String> intersectionSet = new HashSet<>(definitionMap.get(strs[0]));
-    for (int i = 1; i < strs.length; ++i) {
-      intersectionSet.retainAll(definitionMap.get(strs[i]));
-    }
+    HashSet<String> slangSet = definitionMap.get(strs[0]);
+    if (slangSet != null) {
+      HashSet<String> intersectionSet = new HashSet<>(definitionMap.get(strs[0]));
+      for (int i = 1; i < strs.length; ++i) {
+        intersectionSet.retainAll(definitionMap.get(strs[i]));
+      }
 
-    return intersectionSet.toArray(new String[0]);
+      return intersectionSet.toArray(new String[0]);
+    } else {
+      return new String[] {""};
+    }
   }
 
+  /**
+   * Lay tat ca cac slang word
+   * @return
+   */
   public String[] getSlangWords() {
     return slangMap.keySet().toArray(new String[0]);
   }
@@ -139,5 +146,14 @@ public class DictionaryService {
    */
   public Boolean isSlangWordExist(String slangWord) {
     return slangMap.containsKey(slangWord);
+  }
+
+  /**
+   * Restore lai default dictionary
+   */
+  public void restoreDefaultDictionary() {
+    List<HashMap<String, HashSet<String>>> hashMapList = dictionaryDAO.loadSlangAndDefinitionsMap();
+    slangMap = hashMapList.get(0);
+    definitionMap = hashMapList.get(1);
   }
 }

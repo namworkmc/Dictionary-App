@@ -1,6 +1,8 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
@@ -78,5 +80,13 @@ public class DictionaryController {
    */
   public Boolean isSlangWordExist(String slangWord) {
     return dictionaryService.isSlangWordExist(slangWord);
+  }
+
+
+  /**
+   * Restore lai default dictionary
+   */
+  public void restoreDefaultDictionary() {
+    dictionaryService.restoreDefaultDictionary();
   }
 }

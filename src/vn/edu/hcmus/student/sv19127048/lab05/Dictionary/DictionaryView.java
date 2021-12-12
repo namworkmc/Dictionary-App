@@ -2,7 +2,6 @@ package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.SwingConstants.CENTER;
 
@@ -11,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Objects;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -25,14 +26,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import vn.edu.hcmus.student.sv19127048.lab05.DictionaryHistory.DictionaryHistoryController;
 import vn.edu.hcmus.student.sv19127048.lab05.DictionaryHistory.DictionaryHistoryView;
 
 /**
- * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
- * Date 12/11/2021 - 4:42 PM<br> Description: JDK16<br>
+ * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br>
+ * Created by 19127048 - Nguyen Duc Nam<br>
+ * Date 12/11/2021 - 4:42 PM<br>
+ * Description: JDK16<br>
  */
 public class DictionaryView extends JFrame {
 
@@ -69,11 +73,6 @@ public class DictionaryView extends JFrame {
     definitionLabel = new JLabel();
     definitionField = new JTextField();
     addSlangWordButton = new JButton();
-    addDefinitionButton = new JButton();
-    newSlangScrollPane = new JScrollPane();
-    newSlangTable = new JTable();
-    editButton1 = new JButton();
-    deleteButton1 = new JButton();
     menuBar = new JMenuBar();
     fileMenu = new JMenu();
     showHistoryItem = new JMenuItem();
@@ -108,7 +107,6 @@ public class DictionaryView extends JFrame {
             "Definition"
         }
     ));
-//    definitionTable.setPreferredSize(new java.awt.Dimension(250, 64));
     definitionScrollPane.setViewportView(definitionTable);
 
     editButton.setText("Edit");
@@ -116,49 +114,49 @@ public class DictionaryView extends JFrame {
 
     deleteButton.setText("Delete");
 
-    searchByComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Search by slang", "Search by definition" }));
+    searchByComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Search by slang", "Search by definition" }));
     searchByComboBox.addActionListener(this::searchByComboBoxActionPerformed);
 
-    javax.swing.GroupLayout dictionaryPanelLayout = new javax.swing.GroupLayout(dictionaryPanel);
+    GroupLayout dictionaryPanelLayout = new GroupLayout(dictionaryPanel);
     dictionaryPanel.setLayout(dictionaryPanelLayout);
     dictionaryPanelLayout.setHorizontalGroup(
-        dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(dictionaryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(dictionaryPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editButton, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteButton, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
                     .addGroup(dictionaryPanelLayout.createSequentialGroup()
-                        .addGroup(dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                             .addGroup(dictionaryPanelLayout.createSequentialGroup()
-                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchByComboBox, 0, 165, Short.MAX_VALUE))
                             .addComponent(slangWordScrollPane)
                             .addComponent(searchField))
                         .addGap(18, 18, 18)
-                        .addComponent(definitionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(definitionScrollPane, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     dictionaryPanelLayout.setVerticalGroup(
-        dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(dictionaryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(definitionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .addGroup(dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(definitionScrollPane, GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                     .addGroup(dictionaryPanelLayout.createSequentialGroup()
-                        .addGroup(dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(searchButton)
-                            .addComponent(searchByComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchByComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(slangWordScrollPane)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dictionaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dictionaryPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(editButton)
                     .addComponent(deleteButton))
                 .addGap(24, 24, 24))
@@ -184,75 +182,45 @@ public class DictionaryView extends JFrame {
     addSlangWordButton.setText("Add");
     addSlangWordButton.addActionListener(this::addSlangWordButtonActionPerformed);
 
-    addDefinitionButton.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 23)); // NOI18N
-    addDefinitionButton.setText("Add");
-
-    newSlangTable.setModel(new javax.swing.table.DefaultTableModel(
-        null,
-        new String [] {
-            "Slang word", "Definition"
-        }
-    ));
-    newSlangScrollPane.setViewportView(newSlangTable);
-
-    editButton1.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 18)); // NOI18N
-    editButton1.setText("Edit");
-    editButton1.addActionListener(this::editButton1ActionPerformed);
-
-    deleteButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    deleteButton1.setText("Delete");
-
-    javax.swing.GroupLayout addNewWordPanelLayout = new javax.swing.GroupLayout(addNewWordPanel);
+    GroupLayout addNewWordPanelLayout = new GroupLayout(addNewWordPanel);
     addNewWordPanel.setLayout(addNewWordPanelLayout);
     addNewWordPanelLayout.setHorizontalGroup(
-        addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addNewWordPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newSlangScrollPane)
-                .addContainerGap())
+        addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(addNewWordPanelLayout.createSequentialGroup()
                 .addGap(201, 201, 201)
-                .addComponent(editButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(deleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addNewWordPanelLayout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(GroupLayout.Alignment.TRAILING, addNewWordPanelLayout.createSequentialGroup()
                 .addContainerGap(83, Short.MAX_VALUE)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(slangWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(slangWordLabel, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
                     .addGroup(addNewWordPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(definitionLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(slangWordField)
-                    .addComponent(definitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(definitionField, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addSlangWordButton)
-                    .addComponent(addDefinitionButton))
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(addSlangWordButton))
                 .addGap(67, 67, 67))
     );
     addNewWordPanelLayout.setVerticalGroup(
-        addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(addNewWordPanelLayout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(slangWordLabel)
-                    .addComponent(slangWordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addSlangWordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(slangWordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addSlangWordButton, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(definitionLabel)
-                    .addComponent(definitionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addDefinitionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(definitionField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
-                .addComponent(newSlangScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addNewWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deleteButton1)
-                    .addComponent(editButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addNewWordPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)))
     );
 
     jTab.addTab("Add new word", addNewWordPanel);
@@ -264,23 +232,24 @@ public class DictionaryView extends JFrame {
     fileMenu.add(showHistoryItem);
 
     restoreDictionaryItem.setText("Restore default dictionary");
+    restoreDictionaryItem.addActionListener(this::restoreDefaultDictionaryActionPerformed);
     fileMenu.add(restoreDictionaryItem);
 
     menuBar.add(fileMenu);
 
     setJMenuBar(menuBar);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTab, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTab, GroupLayout.PREFERRED_SIZE, 614, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTab)
@@ -376,7 +345,11 @@ public class DictionaryView extends JFrame {
       if (Objects.equals(searchByComboBox.getSelectedItem(), "Search by definition")) {
         listStrings = dictionaryController.getSlangWordsByDefinition(searchStr);
       } else { // Search definition theo slang word
-        listStrings = new String[]{searchStr};
+        if (dictionaryController.isSlangWordExist(searchStr)) {
+          listStrings = new String[]{searchStr};
+        } else { // Neu tu search khong ton tai render empty list
+          listStrings = new String[] {""};
+        }
       }
     }
 
@@ -399,6 +372,29 @@ public class DictionaryView extends JFrame {
     DictionaryHistoryView.renderHistoryWindow();
   }
 
+  private void restoreDefaultDictionaryActionPerformed(ActionEvent evt) {
+    // TODO add your handling code here:
+    dictionaryController.restoreDefaultDictionary();
+
+    slangWordList.setModel(new AbstractListModel<>() {
+      final String[] strings = dictionaryController.getSlangWords();
+
+      public int getSize() {
+        return strings.length;
+      }
+
+      public String getElementAt(int i) {
+        return strings[i];
+      }
+    });
+
+    definitionTable.setModel(new DefaultTableModel(null, new String [] {"Definition"}));
+  }
+
+  /**
+   * Handle onChange cua list
+   * @param evt
+   */
   private void slangWordListValueChanged(ListSelectionEvent evt) {
     System.out.println("List value has changed");
     // TODO add your handling code here:
@@ -408,6 +404,10 @@ public class DictionaryView extends JFrame {
     }
   }
 
+  /**
+   * Load definition cua slang dang duoc chon trong list vao table
+   * @param slangWord slang word
+   */
   void loadDefinitionsIntoTable(String slangWord) {
     HashSet<String> data = dictionaryController.getDefinitionsBySlangWord(slangWord);
     if (data != null) {
@@ -422,8 +422,6 @@ public class DictionaryView extends JFrame {
     }
   }
 
-  // Variables declaration - do not modify
-  private JButton addDefinitionButton;
   private JPanel addNewWordPanel;
   private JButton addSlangWordButton;
   private JTextField definitionField;
@@ -431,17 +429,13 @@ public class DictionaryView extends JFrame {
   private JScrollPane definitionScrollPane;
   private JTable definitionTable;
   private JButton deleteButton;
-  private JButton deleteButton1;
   private JPanel dictionaryPanel;
   private JButton editButton;
-  private JButton editButton1;
   private JMenu fileMenu;
   private JMenuBar menuBar;
   private JMenuItem showHistoryItem;
   private JMenuItem restoreDictionaryItem;
   private JTabbedPane jTab;
-  private JScrollPane newSlangScrollPane;
-  private JTable newSlangTable;
   private JButton searchButton;
   private JComboBox<String> searchByComboBox;
   private JTextField searchField;

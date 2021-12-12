@@ -13,15 +13,8 @@ import java.util.List;
  * Date 12/10/2021 - 8:12 PM<br> Description: JDK16<br>
  */
 public class DictionaryDAO {
-  private BufferedReader bufferedReader;
 
   public DictionaryDAO() {
-    try {
-      bufferedReader = new BufferedReader(new FileReader("slang.txt"));
-//      fileWriter = new FileWriter("test.txt");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -31,6 +24,8 @@ public class DictionaryDAO {
    * la set definitions
    */
   public List<HashMap<String, HashSet<String>>> loadSlangAndDefinitionsMap() {
+    BufferedReader bufferedReader = null;
+
     String line;
     HashSet<String> definitionSet;
     HashSet<String> slangSet;
@@ -38,6 +33,8 @@ public class DictionaryDAO {
     HashMap<String, HashSet<String>> slangMap = new HashMap<>();
     HashMap<String, HashSet<String>> definitionMap = new HashMap<>();
     try {
+      bufferedReader = new BufferedReader(new FileReader("slang.txt"));
+
       while ((line = bufferedReader.readLine()) != null) {
         // Split slang va meaning
         String[] SlangMeaning = line.split("`");
@@ -95,9 +92,17 @@ public class DictionaryDAO {
           }
         }
       }
-
     } catch (IOException e) {
       e.printStackTrace();
+    }
+    finally {
+      try {
+        if (bufferedReader != null) {
+          bufferedReader.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
     return List.of(slangMap, definitionMap);
   }
