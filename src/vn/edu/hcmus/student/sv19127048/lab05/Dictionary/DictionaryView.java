@@ -2,6 +2,7 @@ package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.SwingConstants.CENTER;
 
@@ -56,27 +57,27 @@ public class DictionaryView extends JFrame {
    */
   private void initComponents() {
 
-    jTab = new JTabbedPane();
-    dictionaryPanel = new JPanel();
-    searchButton = new JButton();
+    JTabbedPane jTab = new JTabbedPane();
+    JPanel dictionaryPanel = new JPanel();
+    JButton searchButton = new JButton();
     searchField = new JTextField();
-    slangWordScrollPane = new JScrollPane();
+    JScrollPane slangWordScrollPane = new JScrollPane();
     slangWordList = new JList<>();
-    definitionScrollPane = new JScrollPane();
+    JScrollPane definitionScrollPane = new JScrollPane();
     definitionTable = new JTable();
-    editButton = new JButton();
-    deleteButton = new JButton();
+    JButton editButton = new JButton();
+    JButton deleteButton = new JButton();
     searchByComboBox = new JComboBox<>();
-    addNewWordPanel = new JPanel();
-    slangWordLabel = new JLabel();
+    JPanel addNewWordPanel = new JPanel();
+    JLabel slangWordLabel = new JLabel();
     slangWordField = new JTextField();
-    definitionLabel = new JLabel();
+    JLabel definitionLabel = new JLabel();
     definitionField = new JTextField();
-    addSlangWordButton = new JButton();
-    menuBar = new JMenuBar();
-    fileMenu = new JMenu();
-    showHistoryItem = new JMenuItem();
-    restoreDictionaryItem = new JMenuItem();
+    JButton addSlangWordButton = new JButton();
+    JMenuBar menuBar = new JMenuBar();
+    JMenu fileMenu = new JMenu();
+    JMenuItem showHistoryItem = new JMenuItem();
+    JMenuItem restoreDictionaryItem = new JMenuItem();
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setPreferredSize(new java.awt.Dimension(650, 820));
@@ -286,18 +287,36 @@ public class DictionaryView extends JFrame {
 
         switch (state) {
           // Override
-          case 1 -> dictionaryController.addNewSlangWord(newSlangWord, newDefinition);
+          case 0 -> dictionaryController.addNewSlangWord(newSlangWord, newDefinition);
           // Duplicate
-          case 2 -> dictionaryController.addNewDefinition(newSlangWord, newDefinition);
+          case 1 -> dictionaryController.addNewDefinition(newSlangWord, newDefinition);
         }
       } else { // Ghi slang word moi vao dictionary
         dictionaryController.addNewSlangWord(newSlangWord, newDefinition);
       }
+
+      definitionField.setText("");
+
+      JOptionPane.showMessageDialog(
+          null,
+          "Added a new slang word successfully",
+          "Successfully added",
+          INFORMATION_MESSAGE
+      );
     }
   }
 
   private void editButtonActionPerformed(ActionEvent evt) {
+    System.out.println("Clicked edit button");
     // TODO add your handling code here:
+    EditView.renderEditTextField(slangWordList.getSelectedValue());
+  }
+
+  private void confirmEditButtonActionPerformed(ActionEvent evt){
+    // TODO add your handling code here:
+    String oldSlangWord = slangWordList.getSelectedValue();
+    String newSlangWord = EditView.getEditTextFieldValue();
+    dictionaryController.updateSlangWord(oldSlangWord, newSlangWord);
   }
 
   private void deleteButtonActionPerformed(ActionEvent evt) {
@@ -437,27 +456,12 @@ public class DictionaryView extends JFrame {
     });
   }
 
-  private JPanel addNewWordPanel;
-  private JButton addSlangWordButton;
   private JTextField definitionField;
-  private JLabel definitionLabel;
-  private JScrollPane definitionScrollPane;
   private JTable definitionTable;
-  private JButton deleteButton;
-  private JPanel dictionaryPanel;
-  private JButton editButton;
-  private JMenu fileMenu;
-  private JMenuBar menuBar;
-  private JMenuItem showHistoryItem;
-  private JMenuItem restoreDictionaryItem;
-  private JTabbedPane jTab;
-  private JButton searchButton;
   private JComboBox<String> searchByComboBox;
   private JTextField searchField;
   private JTextField slangWordField;
-  private JLabel slangWordLabel;
   private JList<String> slangWordList;
-  private JScrollPane slangWordScrollPane;
 
   private final DictionaryController dictionaryController;
   private final DictionaryHistoryController dictionaryHistoryController;

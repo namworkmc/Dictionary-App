@@ -45,6 +45,17 @@ public class DictionaryController {
     return dictionaryService.getSlangWords();
   }
 
+
+  /**
+   * Update slang name
+   * @param oldSlangWord slang word name cu
+   * @param newSlangWord slang word name moi
+   * @return {@code true} neu nhu update thanh cong nguoc lai tra ve {@code false}
+   */
+  public Boolean updateSlangWord(String oldSlangWord, String newSlangWord) {
+    return dictionaryService.updateSlangWord(oldSlangWord, newSlangWord);
+  }
+
   /**
    * Update definition cua 1 slang word
    *

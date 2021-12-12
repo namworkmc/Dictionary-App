@@ -38,7 +38,10 @@ public class DictionaryService {
    * @param newDefinition definition moi
    */
   public void addNewSlangWord(String newSlangWord, String newDefinition) {
+    // Map definition vao slang map
     slangMap.put(newSlangWord, new HashSet<>(Collections.singleton(newDefinition)));
+    // Map slang word vao definition map
+    definitionMap.put(newDefinition, new HashSet<>(Collections.singleton(newSlangWord)));
   }
 
   /**
@@ -47,8 +50,10 @@ public class DictionaryService {
    * @param newDefinition definition moi
    */
   public void addNewDefinition(String slangWord, String newDefinition) {
-    HashSet<String> definitionSet = slangMap.get(slangWord);
-    definitionSet.add(newDefinition);
+    // Map definition vao slang map
+    slangMap.get(slangWord).add(newDefinition);
+    // Map slang word vao definition map
+    definitionMap.get(newDefinition).add(slangWord);
   }
 
   /**
@@ -90,6 +95,23 @@ public class DictionaryService {
    */
   public String[] getSlangWords() {
     return slangMap.keySet().toArray(new String[0]);
+  }
+
+  /**
+   * Update slang name
+   * @param oldSlangWord slang word name cu
+   * @param newSlangWord slang word name moi
+   * @return {@code true} neu nhu update thanh cong nguoc lai tra ve {@code false}
+   */
+  public Boolean updateSlangWord(String oldSlangWord, String newSlangWord) {
+    if (isSlangWordExist(oldSlangWord)) {
+      HashSet<String> definitionSet = slangMap.get(oldSlangWord);
+      slangMap.put(newSlangWord, definitionSet);
+      slangMap.remove(oldSlangWord);
+
+      return true;
+    }
+    return false;
   }
 
   /**
