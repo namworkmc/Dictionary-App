@@ -321,9 +321,19 @@ public class DictionaryView extends JFrame {
           INFORMATION_MESSAGE
       );
     } else {
+      // Kiem tra definition co dang duoc chon khong
+      int rowIdx = definitionTable.getSelectedRow();
+      String definition;
+      if (rowIdx == -1) {
+        definition = "";
+      } else {
+        definition = (String) definitionTable.getValueAt(rowIdx, 0);
+      }
+
       // Render edit field
       editView = new EditView();
-      editView.getEditField().setText(slangWordList.getSelectedValue());
+      editView.getEditSlangField().setText(slangWordList.getSelectedValue());
+      editView.getEditDefinitionField().setText(definition);
       editView.getConfirmEditButton().addActionListener(this::confirmEditButtonActionPerformed);
       editView.renderEditTextField();
     }
@@ -337,10 +347,21 @@ public class DictionaryView extends JFrame {
     System.out.println("Clicked confirm button");
     // TODO add your handling code here:
     // Update slang word
-    String oldSlangWord = slangWordList.getSelectedValue();
-    JTextField editField = editView.getEditField();
+    JTextField editSlangField = editView.getEditSlangField();
+    JTextField editDefinition = editView.getEditDefinitionField();
 
-    String newSlangWord = editField.getText();
+    String oldSlangWord = slangWordList.getSelectedValue();
+    String newSlangWord = editSlangField.getText();
+
+    int rowIdx = definitionTable.getSelectedRow();
+    String oldDefinition;
+    if (rowIdx == -1) {
+      oldDefinition = "";
+    } else {
+      oldDefinition = (String) definitionTable.getValueAt(rowIdx, 0);
+    }
+    String newDefinition = editDefinition.getText();
+
     if (newSlangWord.isEmpty()) {
       JOptionPane.showMessageDialog(
           null,
@@ -349,10 +370,20 @@ public class DictionaryView extends JFrame {
           INFORMATION_MESSAGE
       );
     } else {
-      boolean isSuccess= dictionaryController.updateSlangWord(oldSlangWord, newSlangWord);
+      // Update slang word
+      boolean isSuccess = false;
+      if (!oldSlangWord.equals(newSlangWord)) {
+        isSuccess = dictionaryController.updateSlangWord(oldSlangWord, newSlangWord);
+      }
+
+      // Update definition
+      if (!oldDefinition.isEmpty() && !newDefinition.isEmpty() && !oldDefinition.equals(newDefinition)) {
+        isSuccess = dictionaryController.updateSlangDefinition(newSlangWord, oldDefinition, newDefinition);
+      }
 
       if (isSuccess) {
-        editField.setText("");
+        editSlangField.setText("");
+        editDefinition.setText("");
         JOptionPane.showMessageDialog(
             null,
             "Update slang word successfully",
@@ -373,6 +404,10 @@ public class DictionaryView extends JFrame {
     }
   }
 
+  /**
+   * Handle delete button event
+   * @param evt delete button
+   */
   private void deleteButtonActionPerformed(ActionEvent evt) {
     System.out.println("Clicked delete button");
     // TODO add your handling code here:
@@ -459,9 +494,7 @@ public class DictionaryView extends JFrame {
   private void restoreDefaultDictionaryActionPerformed(ActionEvent evt) {
     // TODO add your handling code here:
     dictionaryController.restoreDefaultDictionary();
-
     loadSlangWordIntoList();
-
     definitionTable.setModel(new DefaultTableModel(null, new String [] {"Definition"}));
   }
 

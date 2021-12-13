@@ -105,9 +105,19 @@ public class DictionaryService {
    */
   public Boolean updateSlangWord(String oldSlangWord, String newSlangWord) {
     if (isSlangWordExist(oldSlangWord)) {
+      // Update lai slang map
       HashSet<String> definitionSet = slangMap.get(oldSlangWord);
       slangMap.put(newSlangWord, definitionSet);
       slangMap.remove(oldSlangWord);
+
+      // Update lai definition map
+      for (String definition: definitionSet) {
+        // Split definition ra tung tu le
+        for (String childDefinition: definition.split(" ")) {
+          definitionMap.get(childDefinition).add(newSlangWord);
+          definitionMap.get(childDefinition).remove(oldSlangWord);
+        }
+      }
 
       return true;
     }
@@ -129,6 +139,14 @@ public class DictionaryService {
       HashSet<String> definitionSet = getDefinitionsBySlangWord(slangWord);
       definitionSet.remove(oldDefinition);
       definitionSet.add(newDefinition);
+
+      // Update lai definition map
+      for (String childDefinition: oldDefinition.split(" ")) {
+        definitionMap.get(childDefinition).remove(slangWord);
+      }
+      for (String childDefinition: newDefinition.split(" ")) {
+        definitionMap.put(childDefinition, new HashSet<>(Collections.singleton(slangWord)));
+      }
 
       return true;
     }

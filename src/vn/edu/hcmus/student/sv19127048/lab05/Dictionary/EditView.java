@@ -1,14 +1,17 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-
 import java.awt.EventQueue;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
@@ -24,17 +27,27 @@ public class EditView extends JFrame {
    * Init edit text field
    */
   private void initEditTextField() {
-
     JPanel editPanel = new JPanel();
-    editField = new JTextField();
+    editSlangField = new JTextField();
     confirmEditButton = new JButton();
+    editDefinitionField = new JTextField();
+    JLabel slangLabel = new JLabel();
+    JLabel definitionLabel = new JLabel();
 
-    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    setTitle("Edit slang word");
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-    editField.setHorizontalAlignment(JTextField.CENTER);
+    editSlangField.setHorizontalAlignment(JTextField.CENTER);
 
     confirmEditButton.setText("Confirm");
+
+    editDefinitionField.setHorizontalAlignment(JTextField.CENTER);
+
+    slangLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    slangLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    slangLabel.setText("Slang");
+
+    definitionLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    definitionLabel.setText("Definition");
 
     GroupLayout editPanelLayout = new GroupLayout(editPanel);
     editPanel.setLayout(editPanelLayout);
@@ -42,19 +55,33 @@ public class EditView extends JFrame {
         editPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(editPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(editField, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(confirmEditButton, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                .addGroup(editPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(definitionLabel)
+                    .addComponent(slangLabel))
+                .addGap(23, 23, 23)
+                .addGroup(editPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(editSlangField, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(editDefinitionField))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(confirmEditButton, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                 .addContainerGap())
     );
     editPanelLayout.setVerticalGroup(
         editPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(editPanelLayout.createSequentialGroup()
+            .addGroup(GroupLayout.Alignment.TRAILING, editPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(editPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(editField, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(confirmEditButton))
+                    .addComponent(editSlangField, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(slangLabel))
+                .addGap(18, 18, 18)
+                .addGroup(editPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(editDefinitionField, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(definitionLabel))
                 .addContainerGap())
+            .addGroup(editPanelLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(confirmEditButton, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     GroupLayout layout = new GroupLayout(getContentPane());
@@ -63,19 +90,19 @@ public class EditView extends JFrame {
         layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 412, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(editPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(editPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 81, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(editPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
     );
 
     pack();
@@ -88,9 +115,9 @@ public class EditView extends JFrame {
      * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
      */
     try {
-      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+      for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
         if ("Nimbus".equals(info.getName())) {
-          javax.swing.UIManager.setLookAndFeel(info.getClassName());
+          UIManager.setLookAndFeel(info.getClassName());
           break;
         }
       }
@@ -107,13 +134,17 @@ public class EditView extends JFrame {
     return confirmEditButton;
   }
 
-  public JTextField getEditField() {
-    return editField;
+  public JTextField getEditSlangField() {
+    return editSlangField;
+  }
+
+  public JTextField getEditDefinitionField() {
+    return editDefinitionField;
   }
 
   // Variables declaration - do not modify
   private JButton confirmEditButton;
-  private JTextField editField;
-
+  private JTextField editDefinitionField;
+  private JTextField editSlangField;
   // End of variables declaration
 }
