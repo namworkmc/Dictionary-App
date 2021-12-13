@@ -16,20 +16,21 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class EditView extends JFrame {
 
-  EditView(String selectedVal) {
-    initEditTextField(selectedVal);
+  EditView() {
+    initEditTextField();
   }
 
   /**
    * Init edit text field
    */
-  private void initEditTextField(String selectedVal) {
+  private void initEditTextField() {
 
     JPanel editPanel = new JPanel();
-    JTextField editField = new JTextField(selectedVal);
-    JButton confirmEditButton = new JButton();
+    editField = new JTextField();
+    confirmEditButton = new JButton();
 
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    setTitle("Edit slang word");
 
     editField.setHorizontalAlignment(JTextField.CENTER);
 
@@ -80,7 +81,7 @@ public class EditView extends JFrame {
     pack();
   }// </editor-fold>
 
-  public static void renderEditTextField(String selectedVal) {
+  public void renderEditTextField() {
     /* Set the Nimbus look and feel */
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -99,15 +100,20 @@ public class EditView extends JFrame {
     //</editor-fold>
 
     /* Create and display the form */
-    EventQueue.invokeLater(() -> new EditView(selectedVal).setVisible(true));
+    EventQueue.invokeLater(() -> setVisible(true));
+  }
+
+  public JButton getConfirmEditButton() {
+    return confirmEditButton;
+  }
+
+  public JTextField getEditField() {
+    return editField;
   }
 
   // Variables declaration - do not modify
   private JButton confirmEditButton;
-  private static JTextField editField;
-  // End of variables declaration
+  private JTextField editField;
 
-  static public String getEditTextFieldValue() {
-    return editField.getText();
-  }
+  // End of variables declaration
 }

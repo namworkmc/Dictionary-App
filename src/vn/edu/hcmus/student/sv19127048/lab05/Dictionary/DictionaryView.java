@@ -2,7 +2,6 @@ package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.SwingConstants.CENTER;
 
@@ -261,7 +260,7 @@ public class DictionaryView extends JFrame {
     String newSlangWord = slangWordField.getText();
     String newDefinition = definitionField.getText();
 
-    // Kiem tra cac truong co trong khong
+    // Kiem tra cac truong co trfong khong
     if (newSlangWord.isEmpty() || newDefinition.isEmpty()) {
       JOptionPane.showMessageDialog(
           null,
@@ -306,17 +305,72 @@ public class DictionaryView extends JFrame {
     }
   }
 
+  /**
+   * Edit 1 slang word
+   * @param evt edit button
+   */
   private void editButtonActionPerformed(ActionEvent evt) {
     System.out.println("Clicked edit button");
     // TODO add your handling code here:
-    EditView.renderEditTextField(slangWordList.getSelectedValue());
+    // Kiem tra da chon tren list chua
+    if (slangWordList.isSelectionEmpty()) {
+      JOptionPane.showMessageDialog(
+          null,
+          "You did not select any word",
+          "Empty select",
+          INFORMATION_MESSAGE
+      );
+    } else {
+      // Render edit field
+      editView = new EditView();
+      editView.getEditField().setText(slangWordList.getSelectedValue());
+      editView.getConfirmEditButton().addActionListener(this::confirmEditButtonActionPerformed);
+      editView.renderEditTextField();
+    }
   }
 
+  /**
+   * Confirm edit slang word
+   * @param evt confirm button
+   */
   private void confirmEditButtonActionPerformed(ActionEvent evt){
+    System.out.println("Clicked confirm button");
     // TODO add your handling code here:
+    // Update slang word
     String oldSlangWord = slangWordList.getSelectedValue();
-    String newSlangWord = EditView.getEditTextFieldValue();
-    dictionaryController.updateSlangWord(oldSlangWord, newSlangWord);
+    JTextField editField = editView.getEditField();
+
+    String newSlangWord = editField.getText();
+    if (newSlangWord.isEmpty()) {
+      JOptionPane.showMessageDialog(
+          null,
+          "Your edit field is empty",
+          "Empty field",
+          INFORMATION_MESSAGE
+      );
+    } else {
+      boolean isSuccess= dictionaryController.updateSlangWord(oldSlangWord, newSlangWord);
+
+      if (isSuccess) {
+        editField.setText("");
+        JOptionPane.showMessageDialog(
+            null,
+            "Update slang word successfully",
+            "Successfully Edit",
+            INFORMATION_MESSAGE
+        );
+      } else {
+        JOptionPane.showMessageDialog(
+            null,
+            "Edit slang word failed",
+            "Edit Fail",
+            ERROR_MESSAGE
+        );
+      }
+
+      // Re-render slang list
+      loadSlangWordIntoList();
+    }
   }
 
   private void deleteButtonActionPerformed(ActionEvent evt) {
@@ -456,6 +510,7 @@ public class DictionaryView extends JFrame {
     });
   }
 
+  // Variables declaration - do not modify
   private JTextField definitionField;
   private JTable definitionTable;
   private JComboBox<String> searchByComboBox;
@@ -465,5 +520,6 @@ public class DictionaryView extends JFrame {
 
   private final DictionaryController dictionaryController;
   private final DictionaryHistoryController dictionaryHistoryController;
+  private EditView editView;
   // End of variables declaration
 }
