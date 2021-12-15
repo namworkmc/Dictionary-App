@@ -1,5 +1,6 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,9 +28,8 @@ public class DictionaryService {
   public DictionaryService() {
     dictionaryDAO = new DictionaryDAO();
 
-    List<HashMap<String, HashSet<String>>> hashMapList = dictionaryDAO.loadSlangAndDefinitionsMap();
-    slangMap = hashMapList.get(0);
-    definitionMap = hashMapList.get(1);
+    slangMap = dictionaryDAO.getSlangMap();
+    definitionMap = dictionaryDAO.getDefinitionMap();
   }
 
   /**
@@ -180,12 +180,56 @@ public class DictionaryService {
   }
 
   /**
-   * Lay random slang word cua slangMap
+   * Random slang word
    * @return random slang word
    */
   public String getRandomSlangWord() {
+    Set<String> slangWords = slangMap.keySet();
+    return slangWords.stream().skip(new Random().nextInt(slangWords.size())).findFirst().orElse(null);
+  }
+
+  /**
+   * Random definition
+   * @return random definition
+   */
+  public String getRandomDefinition() {
     Set<String> keySet = slangMap.keySet();
     return keySet.stream().skip(new Random().nextInt(keySet.size())).findFirst().orElse(null);
+  }
+
+  /**
+   * Random definition trong do co 1 tu la definition cua slang
+   * @return random definition
+   */
+  public String[] getRandomDefinition(String slangWord) {
+    if (isSlangWordExist(slangWord)) {
+      String[] definitions = new String[4];
+
+      // Random 1 definition cua slang word
+      HashSet<String> definitionSet = slangMap.get(slangWord);
+      String slangDefinition = definitionSet.stream().skip(new Random().nextInt(definitionSet.size())).findFirst().orElse("");
+      definitions[0] = slangDefinition;
+
+      Set<String> slangWords = slangMap.keySet();
+      for (int i = 1; i < 4; ++i) {
+        // Random 1 slang word
+        String randomSlang = slangWords.stream().skip(new Random().nextInt(slangWords.size())).findFirst().orElse(null);
+        // Kiem tra xem slang word vua random co trung voi slang word input khong, neu co random lai
+        while (slangWord.equals(randomSlang)) {
+          randomSlang = slangWords.stream().skip(new Random().nextInt(slangWords.size())).findFirst().orElse(null);
+        }
+
+        definitionSet = slangMap.get(randomSlang);
+        slangDefinition = definitionSet.stream().skip(new Random().nextInt(definitionSet.size())).findFirst().orElse("");
+
+        definitions[i] = slangDefinition;
+      }
+
+      // Shuffle definitions
+      Collections.shuffle(Arrays.asList(definitions));
+      return definitions;
+    }
+    return null;
   }
 
   /**
@@ -198,11 +242,21 @@ public class DictionaryService {
   }
 
   /**
+   * Kiem tra nghia cua definition dung voi slang word khong
+   *
+   * @param slangWord slang word
+   * @param definition definition
+   * @return {@code true} neu dung nguoc lai {@code false}
+   */
+  public Boolean isDefinitionOfSlangCorrect(String slangWord, String definition) {
+    return slangMap.get(slangWord).contains(definition);
+  }
+
+  /**
    * Restore lai default dictionary
    */
   public void restoreDefaultDictionary() {
-    List<HashMap<String, HashSet<String>>> hashMapList = dictionaryDAO.loadSlangAndDefinitionsMap();
-    slangMap = hashMapList.get(0);
-    definitionMap = hashMapList.get(1);
+    slangMap = dictionaryDAO.getSlangMap();
+    definitionMap = dictionaryDAO.getDefinitionMap();
   }
 }

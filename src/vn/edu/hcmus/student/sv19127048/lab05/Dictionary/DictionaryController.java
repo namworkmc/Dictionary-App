@@ -3,6 +3,8 @@ package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
@@ -80,8 +82,20 @@ public class DictionaryController {
     return dictionaryService.deleteSlangWord(slangWord);
   }
 
+  /**
+   * Random slang word
+   * @return random slang word
+   */
   public String getRandomSlangWord() {
     return dictionaryService.getRandomSlangWord();
+  }
+
+  /**
+   * Random definition trong do co 1 tu la definition cua slang
+   * @return random definition
+   */
+  public String[] getRandomDefinition(String slangWord) {
+    return dictionaryService.getRandomDefinition(slangWord);
   }
 
   /**
@@ -93,6 +107,9 @@ public class DictionaryController {
     return dictionaryService.isSlangWordExist(slangWord);
   }
 
+  public Boolean isDefinitionOfSlangCorrect(String slangWord, String definition) {
+    return dictionaryService.isDefinitionOfSlangCorrect(slangWord, definition);
+  }
 
   /**
    * Restore lai default dictionary

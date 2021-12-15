@@ -14,24 +14,41 @@ import java.util.List;
  */
 public class DictionaryDAO {
 
+  HashMap<String, HashSet<String>> slangMap;
+  HashMap<String, HashSet<String>> definitionMap;
+
   public DictionaryDAO() {
+    loadSlangAndDefinitionsMap();
+  }
+
+  /**
+   * Lay slang tu slang.txt duoi dang {@link HashMap}
+   * @return slang - definition dang {@link HashMap}
+   */
+  public HashMap<String, HashSet<String>> getSlangMap() {
+    return slangMap;
+  }
+
+  /**
+   * Lay slang tu slang.txt duoi dang {@link HashMap}
+   * @return slang - definition dang {@link HashMap}
+   */
+  public HashMap<String, HashSet<String>> getDefinitionMap() {
+    return definitionMap;
   }
 
   /**
    * Load {@code "slang.txt"} vao {@link HashMap}
-   *
-   * @return {@link HashMap} voi {@code K} la slang word va {@code V}
-   * la set definitions
    */
-  public List<HashMap<String, HashSet<String>>> loadSlangAndDefinitionsMap() {
+  private void loadSlangAndDefinitionsMap() {
     BufferedReader bufferedReader = null;
 
     String line;
     HashSet<String> definitionSet;
     HashSet<String> slangSet;
 
-    HashMap<String, HashSet<String>> slangMap = new HashMap<>();
-    HashMap<String, HashSet<String>> definitionMap = new HashMap<>();
+    slangMap = new HashMap<>();
+    definitionMap = new HashMap<>();
     try {
       bufferedReader = new BufferedReader(new FileReader("slang.txt"));
 
@@ -104,6 +121,5 @@ public class DictionaryDAO {
         e.printStackTrace();
       }
     }
-    return List.of(slangMap, definitionMap);
   }
 }

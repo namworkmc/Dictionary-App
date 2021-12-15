@@ -31,6 +31,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import vn.edu.hcmus.student.sv19127048.lab05.DictionaryHistory.DictionaryHistoryController;
 import vn.edu.hcmus.student.sv19127048.lab05.DictionaryHistory.DictionaryHistoryView;
+import vn.edu.hcmus.student.sv19127048.lab05.Game.GameView;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br>
@@ -59,24 +60,27 @@ public class DictionaryView extends JFrame {
     JTabbedPane jTab = new JTabbedPane();
     JPanel dictionaryPanel = new JPanel();
     JButton searchButton = new JButton();
-    searchField = new JTextField();
     JScrollPane slangWordScrollPane = new JScrollPane();
-    slangWordList = new JList<>();
     JScrollPane definitionScrollPane = new JScrollPane();
-    definitionTable = new JTable();
     JButton editButton = new JButton();
     JButton deleteButton = new JButton();
-    searchByComboBox = new JComboBox<>();
     JPanel addNewWordPanel = new JPanel();
     JLabel slangWordLabel = new JLabel();
-    slangWordField = new JTextField();
     JLabel definitionLabel = new JLabel();
-    definitionField = new JTextField();
     JButton addSlangWordButton = new JButton();
     JMenuBar menuBar = new JMenuBar();
-    JMenu fileMenu = new JMenu();
+    JMenu fileMenu = new JMenu("File");
     JMenuItem showHistoryItem = new JMenuItem();
     JMenuItem restoreDictionaryItem = new JMenuItem();
+    JMenu gameMenu = new JMenu("Game");
+    gameView = new GameView();
+
+    searchField = new JTextField();
+    slangWordList = new JList<>();
+    definitionTable = new JTable();
+    searchByComboBox = new JComboBox<>();
+    slangWordField = new JTextField();
+    definitionField = new JTextField();
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setPreferredSize(new java.awt.Dimension(650, 820));
@@ -215,8 +219,6 @@ public class DictionaryView extends JFrame {
 
     jTab.addTab("Add new word", addNewWordPanel);
 
-    fileMenu.setText("File");
-
     showHistoryItem.setText("Show history");
     showHistoryItem.addActionListener(this::showHistoryItemActionPerformed);
     fileMenu.add(showHistoryItem);
@@ -225,7 +227,16 @@ public class DictionaryView extends JFrame {
     restoreDictionaryItem.addActionListener(this::restoreDefaultDictionaryActionPerformed);
     fileMenu.add(restoreDictionaryItem);
 
+    JMenuItem gameMode1Item = new JMenuItem("Mode 1");
+    gameMode1Item.addActionListener(this::gameMode1ActionPerformed);
+    gameMenu.add(gameMode1Item);
+    JMenuItem gameMode2Item = new JMenuItem("Mode 2");
+    gameMode2Item.addActionListener(this::gameMode2ActionPerformed);
+    gameMenu.add(gameMode2Item);
+
+
     menuBar.add(fileMenu);
+    menuBar.add(gameMenu);
 
     setJMenuBar(menuBar);
 
@@ -511,11 +522,28 @@ public class DictionaryView extends JFrame {
     }
   }
 
+  private void gameMode1ActionPerformed(ActionEvent evt) {
+    System.out.println("Clicked mode 1");
+    String randomSlang = dictionaryController.getRandomSlangWord();
+    String[] randomDefinition = dictionaryController.getRandomDefinition(randomSlang);
+
+    gameView.getSlangWordLabel().setText(randomSlang);
+    gameView.getAnswer1().setText(randomDefinition[0]);
+    gameView.getAnswer2().setText(randomDefinition[1]);
+    gameView.getAnswer3().setText(randomDefinition[2]);
+    gameView.getAnswer4().setText(randomDefinition[3]);
+    gameView.renderGameWindow();
+  }
+
+  private void gameMode2ActionPerformed(ActionEvent evt) {
+    System.out.println("Clicked mode 2");
+  }
+
   /**
    * Load definition cua slang dang duoc chon trong list vao table
    * @param slangWord slang word
    */
-  void loadDefinitionsIntoTable(String slangWord) {
+  private void loadDefinitionsIntoTable(String slangWord) {
     HashSet<String> data = dictionaryController.getDefinitionsBySlangWord(slangWord);
     if (data != null) {
       int size = data.size();
@@ -529,7 +557,10 @@ public class DictionaryView extends JFrame {
     }
   }
 
-  void loadSlangWordIntoList() {
+  /**
+   * Load slang word vao list
+   */
+  private void loadSlangWordIntoList() {
     slangWordList.setModel(new AbstractListModel<>() {
       final String[] strings = dictionaryController.getSlangWords();
 
@@ -550,6 +581,7 @@ public class DictionaryView extends JFrame {
   private JTextField searchField;
   private JTextField slangWordField;
   private JList<String> slangWordList;
+  private GameView gameView;
 
   private final DictionaryController dictionaryController;
   private final DictionaryHistoryController dictionaryHistoryController;
