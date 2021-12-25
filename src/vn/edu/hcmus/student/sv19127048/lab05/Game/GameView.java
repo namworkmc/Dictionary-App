@@ -1,5 +1,8 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Game;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,11 +11,14 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import vn.edu.hcmus.student.sv19127048.lab05.Dictionary.Dictionary;
+import vn.edu.hcmus.student.sv19127048.lab05.Dictionary.DictionaryController;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Game<br> Created by 19127048 - Nguyen Duc Nam<br> Date
@@ -23,8 +29,10 @@ public class GameView extends JFrame implements ActionListener {
   /**
    * Creates new form GameFrame
    */
-  public GameView() {
+  public GameView(DictionaryController dictionaryController) {
+    this.dictionaryController = dictionaryController;
     initComponents();
+    initGamePlay();
   }
 
   /**
@@ -38,9 +46,16 @@ public class GameView extends JFrame implements ActionListener {
 
     slangWordLabel = new JLabel();
     answer1 = new JButton();
+    answer1.addActionListener(this);
+
     answer2 = new JButton();
+    answer2.addActionListener(this);
+
     answer3 = new JButton();
+    answer3.addActionListener(this);
+
     answer4 = new JButton();
+    answer4.addActionListener(this);
 
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setTitle("Guess Game");
@@ -84,6 +99,17 @@ public class GameView extends JFrame implements ActionListener {
 
     pack();
   }// </editor-fold>
+
+  private void initGamePlay() {
+    String randomSlang = dictionaryController.getRandomSlangWord();
+    String[] randomDefinition = dictionaryController.getRandomDefinition(randomSlang);
+
+    slangWordLabel.setText(randomSlang);
+    answer1.setText(randomDefinition[0]);
+    answer2.setText(randomDefinition[1]);
+    answer3.setText(randomDefinition[2]);
+    answer4.setText(randomDefinition[3]);
+  }
 
   /**
    * Render game window
@@ -130,6 +156,51 @@ public class GameView extends JFrame implements ActionListener {
     return slangWordLabel;
   }
 
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    boolean isCorrect;
+
+    if (e.getSource() == answer1) {
+      System.out.println("Clicked answer 1");
+      String definition = answer1.getText();
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+
+    } else if (e.getSource() == answer2) {
+      System.out.println("Clicked answer 2");
+      String definition = answer2.getText();
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+
+    } else if (e.getSource() == answer3) {
+      System.out.println("Clicked answer 3");
+      String definition = answer3.getText();
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+
+    } else {
+      System.out.println("Clicked answer 4");
+      String definition = answer4.getText();
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+
+    }
+
+    if (isCorrect) {
+      JOptionPane.showMessageDialog(
+          null,
+          "Correct",
+          "CORRECT ANSWER",
+          INFORMATION_MESSAGE
+      );
+    } else {
+      JOptionPane.showMessageDialog(
+          null,
+          "Wrong, try again",
+          "WRONG ANSWER",
+          JOptionPane.WARNING_MESSAGE
+      );
+    }
+
+    initGamePlay();
+  }
+
   // Variables declaration - do not modify
   private JButton answer1;
   private JButton answer2;
@@ -137,17 +208,6 @@ public class GameView extends JFrame implements ActionListener {
   private JButton answer4;
   private JLabel slangWordLabel;
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == answer1) {
-      System.out.println("Clicked answer 1");
-    } else if (e.getSource() == answer2) {
-      System.out.println("Clicked answer 2");
-    } else if (e.getSource() == answer3) {
-      System.out.println("Clicked answer 3");
-    } else {
-      System.out.println("Clicked answer 4");
-    }
-  }
+  private DictionaryController dictionaryController;
   // End of variables declaration
 }

@@ -73,7 +73,7 @@ public class DictionaryView extends JFrame {
     JMenuItem showHistoryItem = new JMenuItem();
     JMenuItem restoreDictionaryItem = new JMenuItem();
     JMenu gameMenu = new JMenu("Game");
-    gameView = new GameView();
+    gameView = new GameView(dictionaryController);
 
     searchField = new JTextField();
     slangWordList = new JList<>();
@@ -271,7 +271,7 @@ public class DictionaryView extends JFrame {
     String newSlangWord = slangWordField.getText();
     String newDefinition = definitionField.getText();
 
-    // Kiem tra cac truong co trfong khong
+    // Kiem tra cac truong co trong khong
     if (newSlangWord.isEmpty() || newDefinition.isEmpty()) {
       JOptionPane.showMessageDialog(
           null,
@@ -524,14 +524,7 @@ public class DictionaryView extends JFrame {
 
   private void gameMode1ActionPerformed(ActionEvent evt) {
     System.out.println("Clicked mode 1");
-    String randomSlang = dictionaryController.getRandomSlangWord();
-    String[] randomDefinition = dictionaryController.getRandomDefinition(randomSlang);
 
-    gameView.getSlangWordLabel().setText(randomSlang);
-    gameView.getAnswer1().setText(randomDefinition[0]);
-    gameView.getAnswer2().setText(randomDefinition[1]);
-    gameView.getAnswer3().setText(randomDefinition[2]);
-    gameView.getAnswer4().setText(randomDefinition[3]);
     gameView.renderGameWindow();
   }
 
