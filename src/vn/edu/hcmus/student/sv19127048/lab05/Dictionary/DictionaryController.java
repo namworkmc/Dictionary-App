@@ -1,10 +1,6 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
@@ -91,11 +87,24 @@ public class DictionaryController {
   }
 
   /**
+   * Get random definition word
+   *
+   * @return random definition
+   */
+  public String getRandomDefinition() {
+    return dictionaryService.getRandomDefinition();
+  }
+
+  public String[] getRandomSlangWords(String definition) {
+    return dictionaryService.getRandomSlangWords(definition);
+  }
+
+  /**
    * Random definition trong do co 1 tu la definition cua slang
    * @return random definition
    */
-  public String[] getRandomDefinition(String slangWord) {
-    return dictionaryService.getRandomDefinition(slangWord);
+  public String[] getRandomDefinitions(String slangWord) {
+    return dictionaryService.getRandomDefinitions(slangWord);
   }
 
   /**

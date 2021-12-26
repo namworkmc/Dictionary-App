@@ -1,12 +1,12 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Game;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +17,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import vn.edu.hcmus.student.sv19127048.lab05.Dictionary.Dictionary;
 import vn.edu.hcmus.student.sv19127048.lab05.Dictionary.DictionaryController;
 
 /**
@@ -32,7 +31,6 @@ public class GameView extends JFrame implements ActionListener {
   public GameView(DictionaryController dictionaryController) {
     this.dictionaryController = dictionaryController;
     initComponents();
-    initGamePlay();
   }
 
   /**
@@ -44,7 +42,7 @@ public class GameView extends JFrame implements ActionListener {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">
   private void initComponents() {
 
-    slangWordLabel = new JLabel();
+    questionLabel = new JLabel();
     answer1 = new JButton();
     answer1.addActionListener(this);
 
@@ -60,8 +58,8 @@ public class GameView extends JFrame implements ActionListener {
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setTitle("Guess Game");
 
-    slangWordLabel.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
-    slangWordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    questionLabel.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
+    questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -78,14 +76,14 @@ public class GameView extends JFrame implements ActionListener {
                             .addComponent(answer4, GroupLayout.PREFERRED_SIZE, 336, GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32))
                     .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(slangWordLabel, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(questionLabel, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
                         .addGap(137, 137, 137))))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(slangWordLabel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+                .addComponent(questionLabel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(answer1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -100,15 +98,27 @@ public class GameView extends JFrame implements ActionListener {
     pack();
   }// </editor-fold>
 
-  private void initGamePlay() {
+  private void initGamePlay1() {
     String randomSlang = dictionaryController.getRandomSlangWord();
-    String[] randomDefinition = dictionaryController.getRandomDefinition(randomSlang);
+    String[] randomDefinition = dictionaryController.getRandomDefinitions(randomSlang);
 
-    slangWordLabel.setText(randomSlang);
+    questionLabel.setText(randomSlang);
     answer1.setText(randomDefinition[0]);
     answer2.setText(randomDefinition[1]);
     answer3.setText(randomDefinition[2]);
     answer4.setText(randomDefinition[3]);
+  }
+
+  private void initGamePlay2() {
+    var test = dictionaryController.getRandomDefinition();
+    String[] slangWords = dictionaryController.getRandomSlangWords(test);
+//    String[] randomDefinition = dictionaryController.getRandomDefinitions(randomSlang);
+//
+//    questionLabel.setText(randomSlang);
+//    answer1.setText(randomDefinition[0]);
+//    answer2.setText(randomDefinition[1]);
+//    answer3.setText(randomDefinition[2]);
+//    answer4.setText(randomDefinition[3]);
   }
 
   /**
@@ -136,26 +146,6 @@ public class GameView extends JFrame implements ActionListener {
     EventQueue.invokeLater(() -> setVisible(true));
   }
 
-  public JButton getAnswer1() {
-    return answer1;
-  }
-
-  public JButton getAnswer2() {
-    return answer2;
-  }
-
-  public JButton getAnswer3() {
-    return answer3;
-  }
-
-  public JButton getAnswer4() {
-    return answer4;
-  }
-
-  public JLabel getSlangWordLabel() {
-    return slangWordLabel;
-  }
-
   @Override
   public void actionPerformed(ActionEvent e) {
     boolean isCorrect;
@@ -163,22 +153,22 @@ public class GameView extends JFrame implements ActionListener {
     if (e.getSource() == answer1) {
       System.out.println("Clicked answer 1");
       String definition = answer1.getText();
-      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(questionLabel.getText(), definition);
 
     } else if (e.getSource() == answer2) {
       System.out.println("Clicked answer 2");
       String definition = answer2.getText();
-      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(questionLabel.getText(), definition);
 
     } else if (e.getSource() == answer3) {
       System.out.println("Clicked answer 3");
       String definition = answer3.getText();
-      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(questionLabel.getText(), definition);
 
     } else {
       System.out.println("Clicked answer 4");
       String definition = answer4.getText();
-      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(slangWordLabel.getText(), definition);
+      isCorrect = dictionaryController.isDefinitionOfSlangCorrect(questionLabel.getText(), definition);
 
     }
 
@@ -198,7 +188,22 @@ public class GameView extends JFrame implements ActionListener {
       );
     }
 
-    initGamePlay();
+    initGamePlay1();
+  }
+
+  /**
+   * Set game mode
+   *
+   * @param mode
+   */
+  public void setGameMode(Integer mode) {
+    this.mode = mode;
+
+    if (mode == 2) {
+      initGamePlay2();
+    } else {
+      initGamePlay1();
+    }
   }
 
   // Variables declaration - do not modify
@@ -206,8 +211,10 @@ public class GameView extends JFrame implements ActionListener {
   private JButton answer2;
   private JButton answer3;
   private JButton answer4;
-  private JLabel slangWordLabel;
+  private JLabel questionLabel;
 
-  private DictionaryController dictionaryController;
-  // End of variables declaration
+  private final DictionaryController dictionaryController;
+
+  private Integer mode = 1;
+// End of variables declaration
 }

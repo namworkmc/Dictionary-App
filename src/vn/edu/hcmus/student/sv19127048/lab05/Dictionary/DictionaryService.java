@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -189,19 +188,37 @@ public class DictionaryService {
   }
 
   /**
-   * Random definition
+   * Get random definition
    * @return random definition
    */
   public String getRandomDefinition() {
     Set<String> keySet = slangMap.keySet();
-    return keySet.stream().skip(new Random().nextInt(keySet.size())).findFirst().orElse(null);
+    String randomSlang = keySet.stream().skip(new Random().nextInt(keySet.size())).findFirst().orElse(null);
+    HashSet<String> definitionsSet = getDefinitionsBySlangWord(randomSlang);
+
+    String randomDefinition = definitionsSet.stream().skip(new Random().nextInt(definitionsSet.size())).findFirst().orElse(null);
+    return randomDefinition;
+  }
+
+  /**
+   * Random slang word cua definition
+   * @param definition dung de tim slang cua definition
+   * @return 1 mang random slang words
+   */
+  public String[] getRandomSlangWords(String definition) {
+    String[] slangSet = getSlangWordsByDefinition(definition);
+    System.out.println(slangSet);
+
+    return null;
   }
 
   /**
    * Random definition trong do co 1 tu la definition cua slang
-   * @return random definition
+   *
+   * @param slangWord dung de tim definition cua slang word
+   * @return 1 mang random definitions
    */
-  public String[] getRandomDefinition(String slangWord) {
+  public String[] getRandomDefinitions(String slangWord) {
     if (isSlangWordExist(slangWord)) {
       String[] definitions = new String[4];
 

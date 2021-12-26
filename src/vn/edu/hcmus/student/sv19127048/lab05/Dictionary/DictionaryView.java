@@ -522,14 +522,24 @@ public class DictionaryView extends JFrame {
     }
   }
 
+  /**
+   * Render game mode 1
+   *
+   * @param evt
+   */
   private void gameMode1ActionPerformed(ActionEvent evt) {
     System.out.println("Clicked mode 1");
-
     gameView.renderGameWindow();
   }
 
+  /**
+   * Render game mode 2
+   * @param evt
+   */
   private void gameMode2ActionPerformed(ActionEvent evt) {
     System.out.println("Clicked mode 2");
+    gameView.setGameMode(2);
+    gameView.renderGameWindow();
   }
 
   /**
