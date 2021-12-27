@@ -56,10 +56,21 @@ public class DictionaryService {
   }
 
   /**
+   * Lay random 1 definition cua slang word truyen vao
+   *
+   * @param slangWord slang word
+   * @return definition cua slang word truyen vao
+   */
+  public String getRandomDefinitionOfSlangWord(String slangWord) {
+    Set<String> definitionsSet = slangMap.get(slangWord);
+    return definitionsSet.stream().skip(new Random().nextInt(definitionsSet.size())).findFirst().orElse(null);
+  }
+
+  /**
    * Lay tat ca cac definition cua slang word
    *
    * @param slangWord slang word
-   * @return list cac definition
+   * @return set cac definition
    */
   public HashSet<String> getDefinitionsBySlangWord(String slangWord) {
     return slangMap.get(slangWord);
@@ -90,7 +101,7 @@ public class DictionaryService {
 
   /**
    * Lay tat ca cac slang word
-   * @return
+   * @return mang String slang word
    */
   public String[] getSlangWords() {
     return slangMap.keySet().toArray(new String[0]);
@@ -203,13 +214,33 @@ public class DictionaryService {
   /**
    * Random slang word cua definition
    * @param definition dung de tim slang cua definition
-   * @return 1 mang random slang words
+   * @return mang String random slang words
    */
   public String[] getRandomSlangWords(String definition) {
     String[] slangSet = getSlangWordsByDefinition(definition);
-    System.out.println(slangSet);
+    Collections.shuffle(Arrays.asList(slangSet));
 
-    return null;
+    String slangOfDefinition = null;
+    for (String slang: slangSet) {
+      if (slangMap.get(slang).contains(definition)) {
+        slangOfDefinition = slang;
+      }
+    }
+
+    String[] randomSlangWordsArray = new String[4];
+    randomSlangWordsArray[0] = slangOfDefinition;
+    for (int i = 1; i <= 3; ++i) {
+      String randomSlangWord = getRandomSlangWord();
+      while (randomSlangWord.equals(slangOfDefinition) || slangMap.get(randomSlangWord).contains(slangOfDefinition))
+      {
+        randomSlangWord = getRandomSlangWord();
+      }
+
+      randomSlangWordsArray[i] = randomSlangWord;
+    }
+
+    Collections.shuffle(Arrays.asList(randomSlangWordsArray));
+    return randomSlangWordsArray;
   }
 
   /**
@@ -275,5 +306,12 @@ public class DictionaryService {
   public void restoreDefaultDictionary() {
     slangMap = dictionaryDAO.getSlangMap();
     definitionMap = dictionaryDAO.getDefinitionMap();
+  }
+
+  /**
+   * Save slang map duoi dang binary
+   */
+  public void saveSlangMap() {
+    dictionaryDAO.saveSlangMap(slangMap);
   }
 }

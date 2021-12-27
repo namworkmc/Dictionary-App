@@ -1,8 +1,10 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +37,20 @@ public class DictionaryDAO {
    */
   public HashMap<String, HashSet<String>> getDefinitionMap() {
     return definitionMap;
+  }
+
+  /**
+   * Save slang map duoi dang binary
+   */
+  public void saveSlangMap(HashMap<String, HashSet<String>> slangMap) {
+    try {
+      ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("slang_map.dat"));
+      objectOutputStream.writeObject(slangMap);
+      objectOutputStream.flush();
+      objectOutputStream.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**

@@ -7,7 +7,7 @@ import java.util.HashSet;
  * Date 12/10/2021 - 8:12 PM<br> Description: JDK16<br>
  */
 public class DictionaryController {
-  DictionaryService dictionaryService;
+  final private DictionaryService dictionaryService;
 
   public DictionaryController() {
     this.dictionaryService = new DictionaryService();
@@ -31,18 +31,44 @@ public class DictionaryController {
     dictionaryService.addNewDefinition(slangWord, newDefinition);
   }
 
-  public HashSet<String> getDefinitionsBySlangWord(String word) {
-    return dictionaryService.getDefinitionsBySlangWord(word);
+  /**
+   * Lay random 1 definition cua slang word truyen vao
+   *
+   * @param slangWord slang word
+   * @return definition cua slang word truyen vao
+   */
+  public String getRandomDefinitionOfSlangWord(String slangWord) {
+    return dictionaryService.getRandomDefinitionOfSlangWord(slangWord);
   }
 
+  /**
+   * Lay tat ca cac definition cua slang word
+   *
+   * @param slangWord slang word
+   * @return set cac definition
+   */
+  public HashSet<String> getDefinitionsBySlangWord(String slangWord) {
+    return dictionaryService.getDefinitionsBySlangWord(slangWord);
+  }
+
+  /**
+   * Lay tat cac slang word co cung definition
+   *
+   * @param definition slang word
+   * @return tra {@link String}[] cac slang word neu definition do co ton tai
+   * tra ve chuoi rong {@code ""} neu khong ton tai
+   */
   public String[] getSlangWordsByDefinition(String definition) {
     return dictionaryService.getSlangWordsByDefinition(definition);
   }
 
+  /**
+   * Lay tat ca cac slang word
+   * @return mang String slang word
+   */
   public String[] getSlangWords() {
     return dictionaryService.getSlangWords();
   }
-
 
   /**
    * Update slang name
@@ -95,6 +121,11 @@ public class DictionaryController {
     return dictionaryService.getRandomDefinition();
   }
 
+  /**
+   * Random slang word cua definition
+   * @param definition dung de tim slang cua definition
+   * @return mang String random slang words
+   */
   public String[] getRandomSlangWords(String definition) {
     return dictionaryService.getRandomSlangWords(definition);
   }
@@ -125,5 +156,12 @@ public class DictionaryController {
    */
   public void restoreDefaultDictionary() {
     dictionaryService.restoreDefaultDictionary();
+  }
+
+  /**
+   * Save slang map duoi dang binary
+   */
+  public void saveSlangMap() {
+    dictionaryService.saveSlangMap();
   }
 }
