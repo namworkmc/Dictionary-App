@@ -24,7 +24,6 @@ public class OnThisDaySlangWordView extends JFrame {
     log = onThisDaySlangWordController.readLog();
 
     initComponents();
-    renderOnThisDaySlangWindow();
   }
 
   private void initComponents() {
@@ -90,7 +89,7 @@ public class OnThisDaySlangWordView extends JFrame {
     pack();
   }// </editor-fold>
 
-  private void renderOnThisDaySlangWindow() {
+  public void renderOnThisDaySlangWindow() {
     try {
       for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
         if ("Nimbus".equals(info.getName())) {

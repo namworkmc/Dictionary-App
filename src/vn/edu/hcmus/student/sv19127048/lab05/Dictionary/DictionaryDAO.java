@@ -1,14 +1,16 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * vn.edu.hcmus.student.sv19127048.lab05.Dictionary<br> Created by 19127048 - Nguyen Duc Nam<br>
@@ -16,8 +18,8 @@ import java.util.List;
  */
 public class DictionaryDAO {
 
-  HashMap<String, HashSet<String>> slangMap;
-  HashMap<String, HashSet<String>> definitionMap;
+  private HashMap<String, HashSet<String>> slangMap;
+  private HashMap<String, HashSet<String>> definitionMap;
 
   public DictionaryDAO() {
     loadSlangAndDefinitionsMap();
@@ -32,6 +34,37 @@ public class DictionaryDAO {
   }
 
   /**
+   * Save slang map duoi dang binary
+   */
+  public void saveSlangMap(HashMap<String, HashSet<String>> slangMap) {
+    try {
+      ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("slang.dat"));
+      objectOutputStream.writeObject(slangMap);
+      objectOutputStream.flush();
+      objectOutputStream.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Load slang map o dang binary tu {@code slang.dat} vao {@link HashMap} object
+   *
+   * @return {@link HashMap} slang map co key la String, Value la {@link HashSet}
+   */
+  public HashMap<String, HashSet<String>> loadSlangMap() {
+    try {
+      ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("slang.dat"));
+      slangMap = (HashMap<String, HashSet<String>>) objectInputStream.readObject();
+      objectInputStream.close();
+    } catch (IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return slangMap;
+  }
+
+  /**
    * Lay slang tu slang.txt duoi dang {@link HashMap}
    * @return slang - definition dang {@link HashMap}
    */
@@ -40,17 +73,42 @@ public class DictionaryDAO {
   }
 
   /**
-   * Save slang map duoi dang binary
+   * Save definition map duoi dang binary
+   * @param definitionMap definition map
    */
-  public void saveSlangMap(HashMap<String, HashSet<String>> slangMap) {
+  public void saveDefinitionMap(HashMap<String, HashSet<String>> definitionMap) {
     try {
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("slang_map.dat"));
-      objectOutputStream.writeObject(slangMap);
+      ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("definition.dat"));
+      objectOutputStream.writeObject(definitionMap);
       objectOutputStream.flush();
       objectOutputStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Load definition map o dang binary tu {@code definition.dat} vao {@link HashMap} object
+   *
+   * @return {@link HashMap} slang map co key la String, Value la {@link HashSet}
+   */
+  public HashMap<String, HashSet<String>> loadDefinitionMap() {
+    try {
+      ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("definition.dat"));
+      definitionMap = (HashMap<String, HashSet<String>>) objectInputStream.readObject();
+      objectInputStream.close();
+    } catch (IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return definitionMap;
+  }
+
+  /**
+   * Restore dictionary
+   */
+  public void restoreDefaultDictionary() {
+    loadSlangAndDefinitionsMap();
   }
 
   /**
@@ -109,10 +167,10 @@ public class DictionaryDAO {
          */
         for (String definition : definitions) {
           // Split 1 tu dai ra thanh tung tu con. Vi du: "Thank You" -> "Thank" "You"
-          String[] definitionChild = definition.split(" ");
+          String[] childDefinition = definition.split(" ");
 
           // Map tung slang vao tung tu con
-          for (String child: definitionChild) {
+          for (String child: childDefinition) {
             // Definition co nhieu hon 1 slang
             if (definitionMap.containsKey(child)) {
               slangSet = definitionMap.get(child);

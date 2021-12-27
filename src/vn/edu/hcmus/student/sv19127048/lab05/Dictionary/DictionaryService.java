@@ -1,5 +1,7 @@
 package vn.edu.hcmus.student.sv19127048.lab05.Dictionary;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,10 +16,10 @@ import java.util.Set;
  * Description: JDK16<br>
  */
 public class DictionaryService {
-  DictionaryDAO dictionaryDAO;
+  final private DictionaryDAO dictionaryDAO;
 
-  HashMap<String, HashSet<String>> slangMap;
-  HashMap<String, HashSet<String>> definitionMap;
+  private HashMap<String, HashSet<String>> slangMap;
+  private HashMap<String, HashSet<String>> definitionMap;
 
   /**
    * Constructor cua service class cua Dictionary<br>
@@ -27,8 +29,17 @@ public class DictionaryService {
   public DictionaryService() {
     dictionaryDAO = new DictionaryDAO();
 
-    slangMap = dictionaryDAO.getSlangMap();
-    definitionMap = dictionaryDAO.getDefinitionMap();
+    if (Files.exists(Path.of("slang.dat"))) {
+      slangMap = dictionaryDAO.loadSlangMap();
+    } else {
+      slangMap = dictionaryDAO.getSlangMap();
+    }
+
+    if (Files.exists(Path.of("definition.dat"))) {
+      definitionMap = dictionaryDAO.loadDefinitionMap();
+    } else {
+      definitionMap = dictionaryDAO.getDefinitionMap();
+    }
   }
 
   /**
@@ -52,7 +63,19 @@ public class DictionaryService {
     // Map definition vao slang map
     slangMap.get(slangWord).add(newDefinition);
     // Map slang word vao definition map
-    definitionMap.get(newDefinition).add(slangWord);
+    String[] childDefinition = newDefinition.split(" ");
+    HashSet<String> slangSet;
+
+    for (String child: childDefinition) {
+      if (definitionMap.containsKey(child)) {
+        slangSet = definitionMap.get(child);
+        slangSet.add(slangWord);
+      } else {  // Definition co 1 slang
+        slangSet = new HashSet<>();
+        slangSet.add(slangWord);
+        definitionMap.put(child, slangSet);
+      }
+    }
   }
 
   /**
@@ -304,6 +327,7 @@ public class DictionaryService {
    * Restore lai default dictionary
    */
   public void restoreDefaultDictionary() {
+    dictionaryDAO.restoreDefaultDictionary();
     slangMap = dictionaryDAO.getSlangMap();
     definitionMap = dictionaryDAO.getDefinitionMap();
   }
@@ -313,5 +337,12 @@ public class DictionaryService {
    */
   public void saveSlangMap() {
     dictionaryDAO.saveSlangMap(slangMap);
+  }
+
+  /**
+   * Save definition map duoi dang binary
+   */
+  public void saveDefinitionMap() {
+    dictionaryDAO.saveDefinitionMap(definitionMap);
   }
 }

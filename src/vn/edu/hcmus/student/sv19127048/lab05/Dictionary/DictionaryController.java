@@ -164,4 +164,11 @@ public class DictionaryController {
   public void saveSlangMap() {
     dictionaryService.saveSlangMap();
   }
+
+  /**
+   * Save definition map duoi dang binary
+   */
+  public void saveDefinitionMap() {
+    dictionaryService.saveDefinitionMap();
+  }
 }
