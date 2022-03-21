@@ -126,7 +126,7 @@ Download the project from [GitHub](https://github.com/namworkmc/Java-Dictionary-
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/namworkmc/Java-Private-Chat-App.git
+   git clone https://github.com/namworkmc/Java-Dictionary-Application.git
    ```
 2. Run the project with your IDE. I am using IntelliJ IDEA. Demo (with subtitles)
    ```sh
