@@ -139,9 +139,17 @@ Download the project from [GitHub](https://github.com/namworkmc/Java-Dictionary-
 ## Main Idea
 
 Under the hood, the project uses Java Collections to store slang words and definitions.
-More specifically, there are two collections used: HashMap and HashSet.
-Each slang's definition is stored in a HashSet, and each HashSet is stored in a HashMap
-with the slang as the key.
+More specifically, there are four Collections used: two **HashMap** and two **HashSet**:<br />
+First **HashMap** is used to store slang words and first **HashSet** is used to store slang's definitions.<br />
+Second **HashMap** is used to store definitions (word by word) and second **HashSet** is used to store definition's slang words.
+
+Each slang's definition is stored in a **HashSet**, and each definition **HashSet** is stored in a **HashMap**
+with the slang as the key. 
+![img.png](img.png)
+
+Each slang word is stored in a **HashSet**, 
+and each slang **HashSet** is stored in a **HasMap** with definition word as the key.
+![img_1.png](img_1.png)
 
 <!-- CONTACT -->
 <a id="contact"></a>
