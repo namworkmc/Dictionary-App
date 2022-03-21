@@ -138,7 +138,10 @@ Download the project from [GitHub](https://github.com/namworkmc/Java-Dictionary-
 
 ## Main Idea
 
-Base on the idea of Java String pool.
+Under the hood, the project uses Java Collections to store slang words and definitions.
+More specifically, there are two collections used: HashMap and HashSet.
+Each slang's definition is stored in a HashSet, and each HashSet is stored in a HashMap
+with the slang as the key.
 
 <!-- CONTACT -->
 <a id="contact"></a>
@@ -147,7 +150,7 @@ Base on the idea of Java String pool.
 
 Nguyễn Đức Nam - [@Facebook](https://www.facebook.com/DucNamHCMUS) - namworkmc@gmail.com<br>
 
-Project Link: [https://github.com/namworkmc/Java-Private-Chat-App](https://github.com/namworkmc/Java-Private-Chat-App)
+Project Link: [https://github.com/namworkmc/Java-Dictionary-Application](https://github.com/namworkmc/Java-Dictionary-Application)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
