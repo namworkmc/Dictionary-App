@@ -81,7 +81,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]()
+[![Product Name Screen Shot][product-screenshot]](https://github.com/namworkmc/Java-Dictionary-Application/blob/main/images/img.png?raw=true)
 
 Project slang dictionary application, uses Java Swing to create the GUI. Project's features include:
 
@@ -145,11 +145,11 @@ Second **HashMap** is used to store definitions (word by word) and second **Hash
 
 Each slang's definition is stored in a **HashSet**, and each definition **HashSet** is stored in a **HashMap**
 with the slang as the key. 
-![img.png](img.png)
+![img.png](images/img2.png)
 
 Each slang word is stored in a **HashSet**, 
 and each slang **HashSet** is stored in a **HasMap** with definition word as the key.
-![img_1.png](img_1.png)
+![img_1.png](images/img3.png)
 
 <!-- CONTACT -->
 <a id="contact"></a>
