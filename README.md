@@ -148,7 +148,7 @@ with the slang as the key.
 ![img.png](images/img2.png)
 
 Each slang word is stored in a **HashSet**, 
-and each slang **HashSet** is stored in a **HasMap** with definition word as the key.
+and each slang **HashSet** is stored in a **HasMap** with definition word as the key.<br />
 ![img_1.png](images/img3.png)
 
 <!-- CONTACT -->
