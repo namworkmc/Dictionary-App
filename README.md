@@ -128,9 +128,8 @@ Download the project from [GitHub](https://github.com/namworkmc/Java-Dictionary-
    ```sh
    git clone https://github.com/namworkmc/Java-Private-Chat-App.git
    ```
-2. Run the project with your IDE. I am using IntelliJ IDEA.
+2. Run the project with your IDE. I am using IntelliJ IDEA. Demo (with subtitles)
    ```sh
-   Demo (with subtitles)
    https://www.youtube.com/watch?v=zktp0OE0qKQ
    ```
 
@@ -148,8 +147,7 @@ Base on the idea of Java String pool.
 
 Nguyễn Đức Nam - [@Facebook](https://www.facebook.com/DucNamHCMUS) - namworkmc@gmail.com<br>
 
-Project
-Link: [https://github.com/namworkmc/Java-Private-Chat-App](https://github.com/namworkmc/Java-Private-Chat-App)
+Project Link: [https://github.com/namworkmc/Java-Private-Chat-App](https://github.com/namworkmc/Java-Private-Chat-App)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
